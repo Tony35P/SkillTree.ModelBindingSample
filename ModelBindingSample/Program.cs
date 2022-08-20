@@ -1,11 +1,16 @@
+using ElmahCore;
 using ElmahCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddElmah();
-
+//builder.Services.AddElmah();
+builder.Services.AddElmah<XmlFileErrorLog>(option =>
+{
+    // 修改為您主機的路徑
+    option.LogPath = "C:\\Temp";
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
