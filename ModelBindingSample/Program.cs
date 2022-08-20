@@ -1,6 +1,11 @@
+using ElmahCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddElmah();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -27,7 +32,9 @@ if (app.Environment.IsDevelopment())
     //app.UseStatusCodePagesWithRedirects("/ErrorCode?code={0}");
     //app.UseStatusCodePagesWithReExecute("/ErrorCode", "?code={0}");
 
-    app.UseExceptionHandler("/error");
+    //app.UseExceptionHandler("/error");
+
+    app.UseElmah();
 }
 
 app.UseAuthorization();
