@@ -24,8 +24,10 @@ if (app.Environment.IsDevelopment())
     //        context.HttpContext.Response.StatusCode);
     //});
 
-    app.UseStatusCodePagesWithRedirects("/ErrorCode?code={0}");
-    app.UseStatusCodePagesWithReExecute("/ErrorCode", "?code={0}");
+    //app.UseStatusCodePagesWithRedirects("/ErrorCode?code={0}");
+    //app.UseStatusCodePagesWithReExecute("/ErrorCode", "?code={0}");
+
+    app.UseExceptionHandler("/error");
 }
 
 app.UseAuthorization();
