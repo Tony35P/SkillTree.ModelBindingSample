@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace ModelBindingSample.Controllers
 {
@@ -8,10 +10,25 @@ namespace ModelBindingSample.Controllers
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ErrorCodeController : ControllerBase
     {
+        public string RequestId { get; set; }
+        public string ErrorStatusCode { get; set; }
+        public string OriginalURL { get; set; }
+
         public IActionResult Get(string code)
         {
-            // logger(把錯誤log記下來, 檔案型,寫在DB...)
-            return BadRequest($"Error, status code: {code}");
+            // logger
+            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            ErrorStatusCode = code;
+            var statusCodeReExecuteFeature = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
+            if (statusCodeReExecuteFeature != null)
+            {
+                OriginalURL =
+                    statusCodeReExecuteFeature.OriginalPathBase
+                    + statusCodeReExecuteFeature.OriginalPath
+                    + statusCodeReExecuteFeature.OriginalQueryString;
+            }
+
+            return BadRequest($"Error, RequestId: {RequestId}, OriginalUrl: {OriginalURL}, status code: {ErrorStatusCode}");
         }
     }
 }

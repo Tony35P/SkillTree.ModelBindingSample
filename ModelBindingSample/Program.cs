@@ -25,6 +25,7 @@ if (app.Environment.IsDevelopment())
     //});
 
     app.UseStatusCodePagesWithRedirects("/ErrorCode?code={0}");
+    app.UseStatusCodePagesWithReExecute("/ErrorCode", "?code={0}");
 }
 
 app.UseAuthorization();
