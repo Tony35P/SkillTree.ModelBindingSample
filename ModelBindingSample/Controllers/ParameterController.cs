@@ -12,6 +12,7 @@ namespace ModelBindingSample.Controllers
         [HttpGet("{id}")]
         public IActionResult RouteBinding(int id)
         {
+            throw new Exception();
             return Content($"id is {id}");
         }
 
@@ -75,7 +76,7 @@ namespace ModelBindingSample.Controllers
         [Required]
         [RegularExpression(@"\w+")]
         public string Name { get; set; }
-        [StringLength(maximumLength: 255, MinimumLength = 50)]
+        [StringLength(maximumLength: 255, MinimumLength = 8)]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [Phone]

@@ -14,6 +14,15 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
+    app.UseStatusCodePages(async context =>
+    {
+        context.HttpContext.Response.ContentType = "text/plain";
+
+        await context.HttpContext.Response.WriteAsync(
+            "Error, status code: " +
+            context.HttpContext.Response.StatusCode);
+    });
 }
 
 app.UseAuthorization();
